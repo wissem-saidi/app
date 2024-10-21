@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: webapps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app-container
+        image: saidiwissem/app:latest  # Use the latest Docker image
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        - containerPort: 9990
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: webapps
+spec:
+  selector:
+    app: app
+  ports:
+    - protocol: TCP
+      port: 8080  # The service port
+      targetPort: 8080  # The container port
+  type: NodePort  # Change to ClusterIP or NodePort as needed

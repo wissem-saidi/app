@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      mozdisallowselectionprint="mozdisallowselectionprint"
+      moznomarginboxes="moznomarginboxes">
+  
+<h:head>
+	<title>IsMaris</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+	<link rel="icon" type="image/x-icon" href="/resources/favicon.ico"/>
+	<h:outputStylesheet library='bootstrap' name='css/bootstrap.min.css' />
+	<h:outputStylesheet library='font-awesome' name='css/font-awesome.min.css' />
+	<h:outputStylesheet library='Ionicons' name='css/ionicons.min.css' />
+	<h:outputStylesheet library='jvectormap' name='jquery-jvectormap.css' />
+	<h:outputStylesheet library='adminlte' name='css/AdminLTE.min.css' />
+	<h:outputStylesheet library='adminlte' name='css/skins/all-skins.min.css' />
+	<h:outputStylesheet library='bootstrap-datepicker' name='css/bootstrap-datepicker.min.css' />
+	<h:outputStylesheet library='plugins' name='timepicker/bootstrap-timepicker.min.css' />
+	<h:outputStylesheet library='datatables.net-bs' name='css/dataTables.bootstrap.min.css' />
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <h:outputScript library="plugins" name="html5shiv/html5shiv.min.js" />
+	  <h:outputScript library="plugins" name="respond/respond.min.js" />
+    <![endif]-->
+    
+    <h:outputStylesheet library='plugins' name='google-fonts/google-fonts.css' />
+    
+    <h:outputScript library="jquery" name="jquery.min.js" />
+	<h:outputScript library="plugins" name="jQueryUI/jquery-ui.min.js" />
+	<h:outputScript library="bootstrap" name="js/bootstrap.min.js" />
+	<h:outputScript library="bootstrap-datepicker" name="js/bootstrap-datepicker.min.js" />
+	<h:outputScript library="bootstrap-datepicker" name="locales/bootstrap-datepicker.fr.min.js" />
+	<h:outputScript library="plugins" name="timepicker/bootstrap-timepicker.min.js" />
+	<h:outputScript library="datatables.net" name="jquery.dataTables.min.js" />
+	<h:outputScript library="datatables.net-bs" name="js/dataTables.bootstrap.min.js" />
+	<h:outputScript library="jquery-slimscroll" name="jquery.slimscroll.min.js" />
+	<h:outputScript library="fastclick" name="fastclick.js" />
+	<h:outputScript library="adminlte" name="js/adminlte.min.js" />
+	<h:outputScript library="jquery-sparkline" name="jquery.sparkline.min.js" />
+	<h:outputScript library="plugins" name="jvectormap/jquery-jvectormap-1.2.2.min.js" />
+	<h:outputScript library="plugins" name="jvectormap/jquery-jvectormap-world-mill-en.js" />
+	<!--<h:outputScript library="jquery-slimscroll" name="jquery.slimscroll.min.js" />-->
+	<h:outputScript library="chart.js" name="Chart.min.js" />
+	<h:outputScript library="adminlte" name="js/ismaris.js" />
+	<!-- <h:outputScript library="adminlte" name="js/pages/dashboard2.js" /> -->
+	<!-- <h:outputScript library="adminlte" name="js/demo.js" /> -->
+
+	<script type="application/x-javascript">
+		addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+	</script>
+
+</h:head>  
+<h:body styleClass="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+		<ui:insert name="content" >
+			<ui:include src="/templates/content.xhtml"></ui:include>
+		</ui:insert>
+		<ui:insert name="footer" >
+			<ui:include src="/templates/footer.xhtml"></ui:include>
+		</ui:insert>
+	</div>
+</h:body>
+</html>

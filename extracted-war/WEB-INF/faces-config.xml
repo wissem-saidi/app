@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_2.xsd"
+   version="2.2">
+   <factory>
+      <exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+   </factory>
+   
+	<render-kit>
+		<renderer>
+			<component-family>org.primefaces.component</component-family>
+			<renderer-type>org.primefaces.component.InputNumberRenderer</renderer-type>
+			<renderer-class>com.tn.smart.tech.infrastructure.primefaces.CustomInputNumberRenderer</renderer-class>
+		</renderer>
+		<renderer>
+			<component-family>org.primefaces.component</component-family>
+			<renderer-type>org.primefaces.component.CalendarRenderer</renderer-type>
+			<renderer-class>com.tn.smart.tech.infrastructure.primefaces.CustomCalendarRenderer</renderer-class>
+		</renderer>
+	</render-kit>
+
+    <application>
+		
+        <locale-config>
+           <default-locale>fr</default-locale>
+           <supported-locale>fr</supported-locale>
+           <supported-locale>en</supported-locale>
+           <supported-locale>ar</supported-locale>
+        </locale-config>
+		
+		<resource-bundle>  
+		    <base-name>ismaris</base-name>  
+		    <var>ismaris</var>
+		</resource-bundle>
+		
+		<resource-bundle>  
+		    <base-name>i18n.messages</base-name>  
+		    <var>messages</var>
+		</resource-bundle>  
+		<resource-bundle>  
+		    <base-name>i18n.menu</base-name>  
+		    <var>menu</var>
+		</resource-bundle>  
+		<resource-bundle>  
+		    <base-name>i18n.breadcrumb</base-name>  
+		    <var>breadcrumb</var>
+		</resource-bundle>  
+		<resource-bundle>  
+		    <base-name>i18n.authorizations</base-name>  
+		    <var>authorizations</var>
+		</resource-bundle>
+		<resource-bundle>  
+		    <base-name>i18n.enums</base-name>  
+		    <var>enums</var>
+		</resource-bundle>
+		<resource-bundle>  
+		    <base-name>i18n.consts</base-name>  
+		    <var>consts</var>
+		</resource-bundle>  
+	</application>
+
+	<faces-config-extension>
+		<facelets-processing>
+		    <file-extension>.xhtml</file-extension>
+		    <process-as>xhtml</process-as>
+		</facelets-processing>
+	</faces-config-extension>
+
+	<!-- Rafaa TAHAR :: Begin : Avril-2018 -->
+	<managed-bean>
+		<managed-bean-name>LocaleBundle</managed-bean-name>
+		<managed-bean-class>com.tn.smart.tech.application.producer.LocaleBundle</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+
+</faces-config>

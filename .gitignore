@@ -1,0 +1,7 @@
+# Maven target folder
+/target/
+
+# Docker files
+*.log
+*.pid
+*.sock

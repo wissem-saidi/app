@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:of="http://omnifaces.org/functions"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<body>
+	    <ui:composition>
+            <style>
+                .navbar-center {
+                    position: absolute;
+                    z-index: 9000;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    text-align: center;
+                    color: white;
+                    font-weight: bold;
+                }
+
+                .navbar-custom-menu {
+                    position: relative;
+                    margin-right: 20px;
+                }
+            </style>
+		<!--
+
+		-->
+			<header class="main-header">
+                <div class="navbar-center">
+                    <span class="navbar-text" id="currentDateTime" style="font-size: 20px">Your Centered Text</span>
+                </div>
+				<!-- Logo -->
+			    <a href="#{request.contextPath}/main.xhtml" class="logo">
+			      <!-- mini logo for sidebar mini 50x50 pixels -->
+			      <span class="logo-mini"><i class="fa fa-anchor"></i></span>
+			      <!-- logo for regular state and mobile devices -->
+			      <span class="logo-lg"></span>
+			    </a>
+
+			    <!-- Header Navbar: style can be found in header.less -->
+			    <nav class="navbar navbar-static-top">
+			      <!-- Sidebar toggle button -->
+			      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+			        <span class="sr-only">Toggle navigation</span>
+			      </a>
+
+			      <!-- Navbar Right Menu -->
+			      <div class="navbar-custom-menu">
+			        <ul class="nav navbar-nav">
+			          <!-- Messages: style can be found in dropdown.less-->
+			          <!--
+			          <li jsf:id="messagesBox" class="dropdown messages-menu">
+
+			            <ul class="dropdown-menu">
+
+			              <li>
+			                <ul class="menu">
+
+			                </ul>
+			              </li>
+
+			              <li class="footer">
+                            <p:link href="#{request.contextPath}/general/messaging/received/list/message.xhtml?menu=messaging">
+                                <span>#{menu['tools.messaging.view-received']}</span>
+                            </p:link>
+						  </li>
+			            </ul>
+			          </li>
+			          -->
+			          <!-- Notifications: style can be found in dropdown.less -->
+			          <!--
+			          <li class="dropdown notifications-menu">
+			            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			              <i class="fa fa-bell-o"></i>
+			              <span class="label label-warning">5</span>
+			            </a>
+			            <ul class="dropdown-menu">
+			              <li class="header">Vous avez 5 notifications</li>
+			              <li>
+			                <ul class="menu">
+			                  <li>
+			                    <a href="#">
+			                      <i class="fa fa-users text-aqua"></i> Notification 1
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <i class="fa fa-warning text-yellow"></i> Notification 2
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <i class="fa fa-users text-red"></i> Notification 3
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <i class="fa fa-shopping-cart text-green"></i> Notification 4
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <i class="fa fa-user text-red"></i> Notification 5
+			                    </a>
+			                  </li>
+			                </ul>
+			              </li>
+			              <li class="footer"><a href="#">Voir toutes les notifications</a></li>
+			            </ul>
+			          </li>
+			          -->
+			          <!-- Tasks: style can be found in dropdown.less -->
+			          <!--
+			          <li class="dropdown tasks-menu">
+			            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			              <i class="fa fa-flag-o"></i>
+			              <span class="label label-danger">5</span>
+			            </a>
+			            <ul class="dropdown-menu">
+			              <li class="header">5 missions sont en cours</li>
+			              <li>
+			                <ul class="menu">
+			                  <li>
+			                    <a href="#">
+			                      <h3>
+			                        Mission 1
+			                        <small class="pull-right">20%</small>
+			                      </h3>
+			                      <div class="progress xs">
+			                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
+			                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+			                          <span class="sr-only">20% Complete</span>
+			                        </div>
+			                      </div>
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <h3>
+			                        Mission 2
+			                        <small class="pull-right">40%</small>
+			                      </h3>
+			                      <div class="progress xs">
+			                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
+			                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+			                          <span class="sr-only">40% Complete</span>
+			                        </div>
+			                      </div>
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <h3>
+			                        Mission 3
+			                        <small class="pull-right">60%</small>
+			                      </h3>
+			                      <div class="progress xs">
+			                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
+			                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+			                          <span class="sr-only">60% Complete</span>
+			                        </div>
+			                      </div>
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <h3>
+			                        Mission 4
+			                        <small class="pull-right">80%</small>
+			                      </h3>
+			                      <div class="progress xs">
+			                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
+			                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+			                          <span class="sr-only">80% Complete</span>
+			                        </div>
+			                      </div>
+			                    </a>
+			                  </li>
+			                  <li>
+			                    <a href="#">
+			                      <h3>
+			                        Mission 5
+			                        <small class="pull-right">95%</small>
+			                      </h3>
+			                      <div class="progress xs">
+			                        <div class="progress-bar progress-bar-yellow" style="width: 95%" role="progressbar"
+			                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+			                          <span class="sr-only">95% Complete</span>
+			                        </div>
+			                      </div>
+			                    </a>
+			                  </li>
+			                </ul>
+			              </li>
+			              <li class="footer">
+			                <a href="#">Voir toutes les missions</a>
+			              </li>
+			            </ul>
+			          </li>
+			          -->
+				<!-- begin user menu -->
+				  <!-- User Account Menu -->
+				  <li class="dropdown user user-menu">
+				    <!-- Menu Toggle Button -->
+				    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				      <!-- The user image in the navbar-->
+				      <img src="#{request.contextPath}/images/nice_avatar.png" class="user-image" alt="User Image"/>
+				      <!-- hidden-xs hides the username on small devices so only the image appears. -->
+				      <span class="hidden-xs">#{userSessionBean.authenticatedUserName}</span>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <!-- The user image in the menu -->
+				      <li class="user-header">
+					<img src="#{request.contextPath}/images/nice_avatar.png" class="img-circle" alt="User Image"/>
+					<p>
+					    <small>#{userSessionBean.authenticatedUserGroup}</small>
+					</p>
+				      </li>
+				      <!-- Menu Body -->
+				      <!--
+				      <li class="user-body">
+					<div class="row">
+					  <div class="col-xs-4 text-center">
+					    <a href="#">Followers</a>
+					  </div>
+					  <div class="col-xs-4 text-center">
+					    <a href="#">Sales</a>
+					  </div>
+					  <div class="col-xs-4 text-center">
+					    <a href="#">Friends</a>
+					  </div>
+					</div>
+				      </li>
+				      -->
+				      <!-- Menu Footer-->
+				      <li class="user-footer">
+						<div class="pull-left">
+						  <h:form style="margin:0;">
+							<h:commandLink title="#{breadcrumb['user-profile.title']}" action="/general/profile/profile.xhtml?faces-redirect=true"><i class="fa fa-gears" style="vertical-align: middle; margin-left: 5px;"/> #{breadcrumb['user-profile.title']}</h:commandLink>
+						  </h:form>
+						</div>
+						<div class="pull-right">
+						  <h:form style="margin:0;">
+							<h:commandLink title="#{breadcrumb['user.logout']}" action="#{authenticationBean.doLogout()}"><i class="fa fa-power-off" style="vertical-align: middle; margin-left: 5px;"/> #{breadcrumb['user.logout']}</h:commandLink>
+						  </h:form>
+						</div>
+				      </li>
+				    </ul>
+				  </li>
+				<!-- end user menu -->
+			        <!-- Control Sidebar Toggle Button -->
+				<!--
+			          <li>
+			            <a href="#" data-toggle="control-sidebar"><i class="fa fa-anchor"></i></a>
+			          </li>
+				-->
+			        </ul>
+			      </div>
+			    </nav>
+			</header>
+            <script>
+                function updateDateTime() {
+                    const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                    const now = new Date();
+                    const dayName = days[now.getDay()];
+                    const day = now.getDate();
+                    const month = now.getMonth() + 1;
+                    const year = now.getFullYear();
+                    const hours = now.getHours().toString().padStart(2, '0');
+                    const minutes = now.getMinutes().toString().padStart(2, '0');
+                    const seconds = now.getSeconds().toString().padStart(2, '0');
+                    const formattedDateTime = dayName + " " + day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
+                    document.getElementById('currentDateTime').innerText = formattedDateTime;
+                }
+
+                setInterval(updateDateTime, 1000);
+
+                updateDateTime();
+            </script>
+	    </ui:composition>
+    </body>
+</html>
+
+

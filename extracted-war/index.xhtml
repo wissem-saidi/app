@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      mozdisallowselectionprint="mozdisallowselectionprint"
+      moznomarginboxes="moznomarginboxes">
+<f:view locale="#{LocaleBundle.locale}">
+    <h:head>
+        <title>#{breadcrumb['app.title']}</title>
+        <link rel="icon" type="image/x-icon" href="/resources/favicon.ico"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['ismaris:img/favicon.ico']}"/>
+
+        <h:outputStylesheet library='bootstrap' name='css/bootstrap.min.css'/>
+        <h:outputStylesheet library='font-awesome' name='css/font-awesome.min.css'/>
+        <h:outputStylesheet library='Ionicons' name='css/ionicons.min.css'/>
+        <h:outputStylesheet library='adminlte' name='css/AdminLTE.min.css'/>
+
+        <h:outputStylesheet library="primefaces-bootstrap" name="custom.css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <h:outputScript library="plugins" name="html5shiv/html5shiv.min.js" />
+          <h:outputScript library="plugins" name="respond/respond.min.js" />
+        <![endif]-->
+
+        <h:outputStylesheet library='plugins' name='google-fonts/google-fonts.css'/>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-image: url('images/bg-login.png') !important; /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+                height: 100vh; /* This ensures the background covers the full height of the viewport */
+                display: flex;
+                justify-content: center;
+            }
+
+            .equal-height-row {
+                display: flex;
+            }
+
+            .equal-height-col {
+                flex: 1;
+                margin-bottom: 15px; /* Optional: Add some margin between columns */
+            }
+
+            #message {
+                text-shadow:
+                        1px 1px 1px #FFF,
+                        -2px 0 0 red; text-align: center; font-size: 15px;
+                margin-bottom: 5px;
+            }
+        </style>
+    </h:head>
+    <h:body styleClass="hold-transition login-page">
+
+        <f:metadata>
+            <f:viewAction action="#{authenticationBean.initialize()}"/>
+            <!-- <f:viewParam name="sessionExpireMessage" value="#{authenticationBean.sessionExpireMessage}"/> -->
+        </f:metadata>
+
+        <div class="login-box">
+            <!--
+                <div class="login-logo">
+                    <a href="index.xhtml"><b>ISM</b>ari<b>S</b></a>
+                </div>
+             -->
+            <!-- /.login-logo -->
+            <div class="login-logo" style="position:absolute; right: 0; top:0;text-align: right">
+                <h1 id="date" style="margin-top: 8.5rem">
+
+                </h1>
+                <h1 id="time"></h1>
+            </div>
+            <div class="login-box-body"
+                 style="position: absolute; bottom: 10%; right: 0; left: 0; max-width: 550px; background: transparent !important; margin: auto">
+
+                <h:form id="loginForm" prependId="false">
+                    <!--<p:messages id="messages" closable="true" />-->
+                    <p:growl life="5000"/>
+                    <div class="row">
+                        <div class="col-md-12" style="padding: 0">
+                            <div class="form-group has-feedback" style="display: flex">
+                                <p:inputText tabindex="1"
+                                             id="username"
+                                             pt:autocorrect="off"
+                                             pt:spellcheck="false"
+                                             pt:autocomplete="off"
+                                             pt:autocapitalize="off"
+                                             styleClass="form-control"
+                                             style="border-radius: 7px !important; padding: 20px 10px; font-size: 20px"
+                                             placeholder="Nom d'utilisateur"
+                                             required="true"/>
+                            </div>
+                            <div class="form-group has-feedback" style="display: flex">
+                                <p:password tabindex="2"
+                                            id="password"
+                                            pt:autocorrect="off"
+                                            pt:spellcheck="false"
+                                            styleClass="form-control"
+                                            style="border-radius: 7px !important; padding: 20px 10px;font-size: 20px"
+                                            placeholder="Mot de passe"
+                                            required="true"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 0">
+                            <button
+                                    style="background: darkblue;height: 50px;width: 100%; border-radius: 14px; font-weight: 800; font-size: 25px"
+                                    tabindex="3"
+                                    type="submit"
+                                    jsf:update="@form"
+                                    jsf:process="@form"
+                                    class="btn btn-primary btn-block btn-flat"
+                               >
+                                Démarrer
+                            </button>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            window.onload = function () {
+                document.getElementById("username").focus();
+            };
+        </script>
+        <style type="text/css">
+            .ui-growl {
+                position: fixed;
+                top: 50px;
+            }
+
+            .ui-growl-image-info ~ .ui-growl-message {
+                color: white;
+            }
+
+            .ui-growl-image-error ~ .ui-growl-message {
+                color: black;
+            }
+
+            .ui-growl-image-warn ~ .ui-growl-message {
+                color: orange;
+            }
+
+            h1 {
+                text-transform: capitalize;
+                color: white;
+                font-weight: 600;
+                margin-right: 9rem;
+                border: 2px solid white;
+                padding: 1rem;
+                border-radius: 14px;
+                text-align: center;
+            }
+        </style>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+        <h:outputScript library="jquery" name="jquery.min.js"/>
+        <h:outputScript library="bootstrap" name="js/bootstrap.min.js"/>
+
+        <script>
+            function updateClock() {
+                var now = new Date();
+
+                var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                var timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+
+                document.getElementById('date').textContent = now.toLocaleDateString('fr-FR', dateOptions);
+                document.getElementById('time').textContent = now.toLocaleTimeString('fr-FR', timeOptions);
+            }
+
+            setInterval(updateClock, 1000);
+
+            updateClock();
+        </script>
+    </h:body>
+</f:view>
+</html>

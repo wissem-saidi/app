@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<target>System.out</target>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!--
+    <logger name="org.hibernate.SQL" level="ALL" />
+    <logger name="org.hibernate.type" level="ALL" />
+    <logger name="org.hibernate" level="ALL" />
+    -->
+
+	<!--
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>ISMariSLogFile.log</file>
+		<append>true</append>
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] %msg%n</pattern>
+		</encoder>
+	</appender>
+	-->
+
+	<root level="ALL">
+		<appender-ref ref="STDOUT"/>
+		<!--<appender-ref ref="FILE"/>-->
+	</root>
+</configuration>
