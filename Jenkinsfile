@@ -57,7 +57,13 @@ pipeline {
                 }
             }
         }
-        
+        stage('Publish To Nexus') {
+            steps {
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                    sh "mvn deploy -DaltDeploymentRepository=nexus::default::http://192.168.1.100:8081/repository/maven-releases/"
+                }
+            }
+        }
         stage('Build & Tag Docker Image') {
             steps {
                 script {
