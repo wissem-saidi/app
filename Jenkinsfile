@@ -36,29 +36,7 @@ pipeline {
             }
         }
         
-        stage('Extract WAR') {
-            steps {
-                script {
-                    echo "Extracting the WAR file"
-                    sh """
-                    mkdir -p extracted-war
-                    cd extracted-war
-                    jar -xf ../app.war
-                    """
-                }
-            }
-        }
-        
-        stage('Maven Build') {
-            steps {
-                script {
-                    echo "Building the project with Maven"
-                    dir('extracted-war') { // Change to the directory containing the extracted WAR
-                        sh 'mvn clean package' // This will create a new WAR file if needed
-                    }
-                }
-            }
-        }
+       
         
         stage('SonarQube Analysis') {
             steps {
