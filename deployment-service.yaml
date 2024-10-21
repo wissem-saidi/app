@@ -20,6 +20,19 @@ spec:
         - containerPort: 8080
         - containerPort: 8443
         - containerPort: 9990
+        # Optional: Add health checks for better reliability
+        readinessProbe:
+          httpGet:
+            path: /health  # Change this to the appropriate health check endpoint
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health  # Change this to the appropriate health check endpoint
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
 ---
 apiVersion: v1
 kind: Service
@@ -33,4 +46,6 @@ spec:
     - protocol: TCP
       port: 8080  # The service port
       targetPort: 8080  # The container port
-  type: NodePort  # Change to ClusterIP or NodePort as needed
+      # Optional: Specify a NodePort if needed
+      nodePort: 30000  # Choose a port within the NodePort range or omit this line to let Kubernetes allocate one
+  type: NodePort  # Change to LoadBalancer if you need an external IP
