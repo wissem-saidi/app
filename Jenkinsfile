@@ -10,20 +10,10 @@ pipeline {
         SCANNER_HOME = tool 'sonar-scanner'
     }
 
-    stages {
+      stages {
         stage('Git Checkout') {
             steps {
-                script {
-                    // Increase Git buffer size
-                    sh "git config --global http.postBuffer 524288000" // Set buffer size to 500 MB
-
-                    // Retry logic for Git checkout
-                    retry(3) {
-                        timeout(time: 10, unit: 'MINUTES') {
-                            git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/wissem-saidi/app.git', depth: 1
-                        }
-                    }
-                }
+                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/wissem-saidi/app.git' // Updated URL
             }
         }
 
