@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     tools {
         jdk 'jdk17'
         maven 'maven3'
@@ -26,7 +26,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('File System Scan') {
             steps {
                 script {
@@ -35,9 +35,7 @@ pipeline {
                 }
             }
         }
-        
-       
-        
+
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -57,26 +55,26 @@ pipeline {
                 }
             }
         }
+
         stage('Publish To Nexus') {
             steps {
-                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-                    sh "mvn deploy -DaltDeploymentRepository=nexus-cred::http://192.168.1.100:8081/repository/maven-releases/"
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', traceability: true) {
+                    sh "mvn deploy -DaltDeploymentRepository=nexus-cred::default::http://192.168.1.100:8081/repository/maven-releases/"
                 }
             }
         }
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                         // Build the Docker image
-                        sh """
-                        docker build -t saidiwissem/app:latest .
-                        """  
+                        sh "docker build -t saidiwissem/app:latest ."
                     }
                 }
             }
         }
-        
+
         stage('Docker Image Scan') {
             steps {
                 script {
@@ -84,7 +82,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Push Docker Image') {
             steps {
                 script {
@@ -94,7 +92,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Deploy To Kubernetes') {
             steps {
                 script {
@@ -104,7 +102,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Verify the Deployment') {
             steps {
                 script {
