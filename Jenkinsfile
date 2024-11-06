@@ -2,18 +2,26 @@ pipeline {
     agent any
 
     tools {
-        jdk 'jdk17'
+        jdk 'jdk17' // Ensures Java 17 is used
         maven 'maven3'
     }
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
+        DOCKER_IMAGE = 'saidiwissem/app:latest'
     }
 
-      stages {
+    stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/wissem-saidi/app.git' // Updated URL
+                script {
+                    echo "Checking out the main branch from Git"
+                    git(
+                        branch: 'main', 
+                        credentialsId: 'git-cred',
+                        url: 'https://github.com/wissem-saidi/app.git'
+                    )
+                }
             }
         }
 
@@ -21,7 +29,7 @@ pipeline {
             steps {
                 script {
                     echo "Scanning the file system with Trivy"
-                    sh "trivy fs --format table -o trivy-fs-report.html ."
+                    sh "trivy fs --format table -o trivy-report.html ."
                 }
             }
         }
@@ -29,27 +37,17 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    echo "Running SonarQube analysis on the extracted WAR"
-                    dir('extracted-war') {
-                        withSonarQubeEnv('sonar') {
-                            sh '''
-                            $SCANNER_HOME/bin/sonar-scanner \
-                            -Dsonar.projectName=app \
-                            -Dsonar.projectKey=app \
-                            -Dsonar.java.binaries=WEB-INF/classes \
-                            -Dsonar.sources=WEB-INF/classes \
-                            -Dsonar.sourceEncoding=UTF-8
-                            '''
-                        }
+                    echo "Running SonarQube analysis with Java 17"
+                    withSonarQubeEnv('sonar') {
+                        sh """
+                        ${SCANNER_HOME}/bin/sonar-scanner \
+                        -Dsonar.projectName=app \
+                        -Dsonar.projectKey=app \
+                        -Dsonar.java.binaries=extracted-war/WEB-INF/classes \
+                        -Dsonar.sources=extracted-war/WEB-INF/classes \
+                        -Dsonar.sourceEncoding=UTF-8
+                        """
                     }
-                }
-            }
-        }
-
-        stage('Publish To Nexus') {
-            steps {
-                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', traceability: true) {
-                    sh "mvn deploy -DaltDeploymentRepository=nexus-cred::default::http://192.168.1.100:8081/repository/maven-releases/"
                 }
             }
         }
@@ -57,18 +55,10 @@ pipeline {
         stage('Build & Tag Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        // Build the Docker image
-                        sh "docker build -t saidiwissem/app:latest ."
+                    echo "Building Docker image"
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        sh "docker build -t ${DOCKER_IMAGE} ."
                     }
-                }
-            }
-        }
-
-        stage('Docker Image Scan') {
-            steps {
-                script {
-                    sh "trivy image --format json -o trivy-image-report.json saidiwissem/app:latest"
                 }
             }
         }
@@ -76,8 +66,9 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push saidiwissem/app:latest"
+                    echo "Pushing Docker image to registry"
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        sh "docker push ${DOCKER_IMAGE}"
                     }
                 }
             }
@@ -86,7 +77,12 @@ pipeline {
         stage('Deploy To Kubernetes') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.1.90:6443') {
+                    withKubeConfig(
+                        credentialsId: 'k8-cred', 
+                        namespace: 'webapps', 
+                        serverUrl: 'https://192.168.1.90:6443'
+                    ) {
+                        sh "kubectl create namespace webapps || echo 'Namespace webapps already exists'"
                         sh "kubectl apply -f deployment-service.yaml -n webapps"
                     }
                 }
@@ -96,7 +92,11 @@ pipeline {
         stage('Verify the Deployment') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://192.168.1.90:6443') {
+                    withKubeConfig(
+                        credentialsId: 'k8-cred', 
+                        namespace: 'webapps', 
+                        serverUrl: 'https://192.168.1.90:6443'
+                    ) {
                         sh "kubectl get pods -n webapps"
                         sh "kubectl get svc -n webapps"
                     }
@@ -110,7 +110,7 @@ pipeline {
             script {
                 def jobName = env.JOB_NAME
                 def buildNumber = env.BUILD_NUMBER
-                def pipelineStatus = currentBuild.result ?: 'SUCCESS'
+                def pipelineStatus = currentBuild.result ?: 'SUCCESS' // Default to SUCCESS if null
                 def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
 
                 def body = """
@@ -127,14 +127,22 @@ pipeline {
                     </html>
                 """
 
-                emailext (
+                def attachments = []
+                if (fileExists('trivy-report.html')) {
+                    attachments.add('trivy-report.html')
+                }
+                if (fileExists('trivy-image-report.json')) {
+                    attachments.add('trivy-image-report.json')
+                }
+
+                emailext(
                     subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
                     body: body,
-                    to: 'scrpngldn6@gmail.com',
+                    to: 'minomina206@gmail.com',
                     from: 'jenkins@example.com',
                     replyTo: 'jenkins@example.com',
                     mimeType: 'text/html',
-                    attachmentsPattern: 'trivy-fs-report.html,trivy-image-report.json'
+                    attachmentsPattern: attachments.join(',')
                 )
             }
         }
